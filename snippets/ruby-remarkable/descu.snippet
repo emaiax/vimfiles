@@ -1,0 +1,17 @@
+describe :put => :update, :id => '37', :${1:variable} => {:these => 'params'} do
+  expects :find, :on => ${2:Class}, :with => '37', :returns => ${3:proc}
+
+  describe "with valid params" do
+    expects :update_attributes, :on => ${4:$3}, :with => {'these' => 'params'}, :returns => true
+
+    should_assign_to :${5:$1}, :with => ${6:$3}
+    should_redirect_to {${7}}
+  end
+
+  describe "with invalid params" do
+    expects :update_attributes, :on => ${8:$3}, :with => {'these' => 'params'}, :returns => false
+
+    should_assign_to :${9:$1}, :with => ${10:$3}
+    should_render_template 'edit'
+  end
+end
