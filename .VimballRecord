@@ -1,1 +1,3 @@
 tComment.vba: call delete('/home/desenvolvimento/.vim/doc/tComment.txt')|call delete('/home/desenvolvimento/.vim/plugin/tComment.vim')|call delete('/home/desenvolvimento/.vim/autoload/tcomment.vim')
+Align.vba: call delete('/Users/cassiomarques/.vim/plugin/AlignPlugin.vim')|call delete('/Users/cassiomarques/.vim/plugin/AlignMapsPlugin.vim')|call delete('/Users/cassiomarques/.vim/plugin/cecutil.vim')|call delete('/Users/cassiomarques/.vim/doc/Align.txt')|call delete('/Users/cassiomarques/.vim/autoload/Align.vim')|call delete('/Users/cassiomarques/.vim/autoload/AlignMaps.vim')
+supertab.vba: call delete('/Users/cassiomarques/.vim/doc/supertab.txt')|call delete('/Users/cassiomarques/.vim/plugin/supertab.vim')
