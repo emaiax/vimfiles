@@ -1,0 +1,6 @@
+describe :get => :show, :id => '37' do
+  expects :${1:find}, :on => ${2:Class}, :with => '37', :returns => ${3:proc}
+
+	should_assign_to :${4:variable}, :with => ${5:$3}
+  should_render_template 'show'
+end

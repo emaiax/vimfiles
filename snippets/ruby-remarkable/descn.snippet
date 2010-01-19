@@ -1,0 +1,6 @@
+describe :get => :new do
+	expects :new, :on => ${1:Class}, :returns => ${2:proc}
+
+	should_assign_to :${3:variable}
+	should_render_template 'new'
+end

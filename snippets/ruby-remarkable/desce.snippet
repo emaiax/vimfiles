@@ -1,0 +1,6 @@
+describe :get => :edit, :id => '37' do
+  expects :find, :on => ${1:Model}, :with => '37', :returns => ${2:proc}
+
+	should_assign_to :${3:variable}, :with => ${4:$2}
+  should_render_template 'edit'
+end
