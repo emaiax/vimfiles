@@ -1,0 +1,17 @@
+describe :post => :create, :${1:variable} => {:these => 'params'} do
+   expects :new, :on => ${2:Class}, :with => {'these' => 'params'}, :returns => ${3:proc}
+
+   describe "with valid params" do
+     expects :save, :on => ${4:$3}, :returns => true
+
+     should_assign_to :${5:$1}, :with => ${6:$3}
+     should_redirect_to {${7}}
+   end
+
+   describe "with invalid params" do
+     expects :save, :on => ${8:$3}, :returns => false
+
+     should_assign_to :${9:$1}, :with => ${10:$3}
+     should_render_template 'new'
+   end
+ end

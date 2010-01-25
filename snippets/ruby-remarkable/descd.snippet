@@ -1,0 +1,7 @@
+describe :delete => :destroy, :id => '37' do
+  expects :find, :on => ${1:Class}, :with => '37', :returns => ${2:proc}
+	expects :destroy, :on => ${3:$2}
+
+	should_assign_to :${4:variable}, :with => ${5:$3}
+  should_redirect_to {${6}}
+end

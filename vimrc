@@ -81,8 +81,8 @@ if has("gui_running")
   "tell the term has 256 colors
   set t_Co=256
   colorscheme ir_black 
-  set lines=40
-  set columns=115
+  set lines=57
+  set columns=237
 else
   let g:CSApprox_loaded = 0
   colorscheme ir_black
@@ -318,6 +318,7 @@ nmap ; :%s/\<<c-r>=expand("<cword>")<cr>\>/
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
+
 " Reload SnipMate snippets!!
 function! ReloadSnippets( snippets_dir, ft )
     if strlen( a:ft ) == 0
@@ -330,4 +331,7 @@ function! ReloadSnippets( snippets_dir, ft )
     call GetSnippets( a:snippets_dir, filetype )
 endfunction
 
-nmap ,rr :call ReloadSnippets(snippets_dir, &filetype)<CR>
+nmap <F13> :call ReloadSnippets(snippets_dir, &filetype)<CR>
+
+" Align Ruby hashes
+vmap ah :Align =><CR>
