@@ -116,7 +116,7 @@ augroup myfiletypes
   autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 et
 augroup END
 
-nmap <silent> <Leader>p :NERDTreeToggle<CR>
+nmap <F2> :NERDTreeToggle<CR>
 
 "make <c-l> clear the highlight as well as redraw
 nnoremap <C-L> :nohls<CR><C-L>
@@ -345,3 +345,22 @@ nmap <F13> :call ReloadSnippets(snippets_dir, &filetype)<CR>
 
 " Align Ruby hashes
 vmap ah :Align =><CR>
+
+" Execute open rspec buffer
+" Thanks to Ian Smith-Heisters
+function! RunSpec(args)
+ if exists("b:rails_root") && filereadable(b:rails_root . "/script/spec")
+   let spec = b:rails_root . "/script/spec"
+ else
+   let spec = "spec"
+ end 
+ let cmd = ":! " . spec . " % -cfn " . a:args
+ execute cmd 
+endfunction
+
+" Mappings
+" run one rspec example or describe block based on cursor position
+map <leader>! :call RunSpec("-l " . <C-r>=line('.')<CR>)
+" run full rspec file
+map <leader>!! :call RunSpec("")
+

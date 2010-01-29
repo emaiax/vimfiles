@@ -1,67 +1,7 @@
-" pastie.vim: Vim plugin for pastie.caboo.se
-" Maintainer: Tim Pope <vimNOSPAM@tpope.info>
-" URL:        http://www.vim.org/scripts/script.php?script_id=1624
-" GetLatestVimScripts: 1624 1
-" $Id: pastie.vim,v 1.15 2007-12-13 16:44:26 tpope Exp $
-
-" Installation:
-" Place in ~/.vim/plugin or vimfiles/plugin
-" A working ruby install is required (Vim interface not necessary).
-
-" Usage:
-" :Pastie creates a new paste (example arguments shown below).  Use :w to save
-" it by posting it to the server (the parser used is derived from the Vim
-" filetype).  This updates the filename and stores the new url in the primary
-" selection/clipboard when successful.  :Pastie!  creates a paste, saves, and
-" closes the buffer, except when loading an existing paste.
-
-" :Pastie                   Create a paste from all open windows
-" :Pastie!                  Create a paste from all open windows and paste it
-" :1,10Pastie               Create a paste from the specified range
-" :%Pastie                  Use the entire current file to create a new paste
-" :Pastie foo.txt bar.txt   Create a paste from foo.txt and bar.txt
-" :Pastie! foo.txt          Paste directly from foo.txt
-" :Pastie a                 Create a paste from the "a register
-" :Pastie @                 Create a paste from the default (unnamed) register
-" :Pastie *                 Create a paste from the primary selection/clipboard
-" :Pastie _                 Create a new, blank paste
-" :768Pastie                Load existing paste 768
-" :0Pastie                  Load the newest paste
-" :Pastie http://pastie.caboo.se/768            Load existing paste 768
-" :Pastie http://pastie.caboo.se/123456?key=... Use login from pastie bot
-
-" Regardless of the command used, on the first write, this script will create
-" a new paste, and on subsequent writes, it will update the existing paste.
-" If a bang is passed to a command that load an existing paste (:768), the
-" first write will update as well.  If the loaded paste was not created in the
-" same vim session, or with an account extracted from your Firefox cookies,
-" updates will almost certainly silently fail.  (Advanced users can muck
-" around with g:pastie_session_id if desired).
-
-" As hinted at earlier, pastie.vim will snoop around in your Firefox cookies,
-" and use an account cookie if one is found.  The only way to create one of
-" these account cookies is by talking to pastie on IRC.
-
-" At the shell you can directly create a new pastie with a command like
-" $ vim +Pastie
-" or, assuming no other plugins conflict
-" $ vim +Pa
-" And, to read an existing paste
-" $ vim +768Pa
-" You could even paste a file directly
-" $ vim '+Pa!~/.irbrc' +q
-" You can even edit a pastie URL directly, but this is not recommended because
-" netrw can sometimes interfere.
-
-" Lines ending in #!! will be sent as lines beginning with !!.  This alternate
-" format is easier to read and is less likely to interfere with code
-" execution.  In Vim 7 highlighting is done with :2match (use ":2match none"
-" to disable it) and in previous versions, :match (use ":match none" to
-" disable).
-"
-" Known Issues:
-" URL sometimes disappears with the bang (:Pastie!) variant.  You can still
-" retrieve it from the clipboard.
+" pastie.vim - Interface for pastie.org
+" Maintainer:   Tim Pope <vimNOSPAM@tpope.org>
+" URL:          http://www.vim.org/scripts/script.php?script_id=1624
+" GetLatestVimScripts: 1624 1 :AutoInstall: pastie.vim
 
 if exists("g:loaded_pastie") || &cp
     finish
@@ -70,6 +10,15 @@ let g:loaded_pastie = 1
 
 augroup pastie
     autocmd!
+    autocmd BufReadPre  http://pastie.org/*[0-9]?key=*           call s:extractcookies(expand("<amatch>"))
+    autocmd BufReadPost http://pastie.org/*[0-9]?key=*           call s:PastieSwapout(expand("<amatch>"))
+    autocmd BufReadPost http://pastie.org/*[0-9]                 call s:PastieSwapout(expand("<amatch>"))
+    autocmd BufReadPost http://pastie.org/pastes/*[0-9]/download call s:PastieRead(expand("<amatch>"))
+    autocmd BufReadPost http://pastie.org/*[0-9].*               call s:PastieRead(expand("<amatch>"))
+    autocmd BufWriteCmd http://pastie.org/pastes/*[0-9]/download call s:PastieWrite(expand("<amatch>"))
+    autocmd BufWriteCmd http://pastie.org/*[0-9].*               call s:PastieWrite(expand("<amatch>"))
+    autocmd BufWriteCmd http://pastie.org/pastes/                call s:PastieWrite(expand("<amatch>"))
+
     autocmd BufReadPre  http://pastie.caboo.se/*[0-9]?key=*           call s:extractcookies(expand("<amatch>"))
     autocmd BufReadPost http://pastie.caboo.se/*[0-9]?key=*           call s:PastieSwapout(expand("<amatch>"))
     autocmd BufReadPost http://pastie.caboo.se/*[0-9]                 call s:PastieSwapout(expand("<amatch>"))
@@ -80,7 +29,7 @@ augroup pastie
     autocmd BufWriteCmd http://pastie.caboo.se/pastes/                call s:PastieWrite(expand("<amatch>"))
 augroup END
 
-let s:domain = "pastie.caboo.se"
+let s:domain = "pastie.org"
 
 let s:dl_suffix = ".txt" " Used only for :file
 
