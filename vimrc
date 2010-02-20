@@ -83,6 +83,7 @@ if has("gui_running")
   colorscheme ir_black 
   set lines=57
   set columns=237
+  set transparency=8
 else
   let g:CSApprox_loaded = 0
   colorscheme ir_black
@@ -141,8 +142,9 @@ set cursorline
 
 "folding settings
 set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
+set foldnestmax=10       "deepest fold is 3 levels
 set nofoldenable        "dont fold by default
+set foldlevel=1
 
 set wildmode=list:longest   "make cmdline tab completion similar to bash
 set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
@@ -354,3 +356,7 @@ map <leader>! :call RunSpec("-l " . <C-r>=line('.')<CR>)
 " run full rspec file
 map <leader>!! :call RunSpec("")
 
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
