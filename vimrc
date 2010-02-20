@@ -52,18 +52,12 @@ let g:rubytest_cmd_spec = "spec -f specdoc %p"
 " Change which file opens after executing :Rails command
 let g:rails_default_file='config/database.yml'
  
-"Fonts for Linux
-"set guifont=Bitstream\ Vera\ Sans\ Mono\ 9
-set guifont=Monaco\ 10
-
-"Fonts for Mac
-"set guifont=Monaco:h12
-
 set nocompatible          " We're running Vim, not Vi!
 "set guifont=Bitstream\ Vera\ Sans\ Mono\ 9
 set guitablabel=%M%t
 set nobackup
 set noswapfile
+set guifont=Monaco:h12
 set guitablabel=%M%t
 set nobackup
 set nowritebackup
@@ -125,10 +119,6 @@ inoremap <C-L> <C-O>:nohls<CR>
 
 "map to bufexplorer
 nnoremap <C-B> :BufExplorer<cr>
-
-"map management tabs
-nnoremap <C-t> :tabnew<cr>
-nnoremap <A-w> :q<cr>
 
 "map to fuzzy finder text mate stylez
 nnoremap <c-f> :FuzzyFinderTextMate<CR>
@@ -370,3 +360,5 @@ map <leader>!! :call RunSpec("")
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=1
