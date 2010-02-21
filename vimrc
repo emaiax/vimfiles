@@ -83,7 +83,7 @@ if has("gui_running")
   colorscheme ir_black 
   set lines=57
   set columns=237
-  set transparency=8
+  set transparency=3
 else
   let g:CSApprox_loaded = 0
   colorscheme ir_black
@@ -365,40 +365,83 @@ set statusline+=%*
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 
-" NeoComplCache options
-" Use neocomplcache.
-let g:NeoComplCache_EnableAtStartup = 0
-" Use smartcase.
-let g:NeoComplCache_SmartCase = 1
-" Use camel case completion.
-let g:NeoComplCache_EnableCamelCaseCompletion = 1
-" Use underbar completion.
-let g:NeoComplCache_EnableUnderbarCompletion = 1
-" Set minimum syntax keyword length.
-let g:NeoComplCache_MinSyntaxLength = 6
-" Max results
-let g:NeoComplCache_MaxList = 6 
-let g:NeoComplCache_KeywordCompletionStartLength = 6
-let g:NeoComplCache_IgnoreCase = 0
-let g:NeoComplCache_EnableWildCard = 0
+"Autocomplpop options (autocomplete)
+let g:acp_behaviorSnipmateLength = 1
+let g:acp_mappingDriven = 1
+let g:acp_behaviorRubyOmniMethodLength = 3
+let g:acp_behaviorRubyOmniSymbolLength = 3
+let g:acp_behaviorPythonOmniLength = 3
 
-" Define dictionary.
-let g:NeoComplCache_DictionaryFileTypeLists = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
 
-" Define keyword.
-if !exists('g:NeoComplCache_KeywordPatterns')
-    let g:NeoComplCache_KeywordPatterns = {}
-endif
-let g:NeoComplCache_KeywordPatterns['default'] = '\h\w*'
+"Long lines stats (http://got-ravings.blogspot.com/2009/07/vim-pr0n-combating-long-lines.html)
+set statusline+=%{StatuslineLongLineWarning()}
 
-" Plugin key-mappings.
-imap <C-l>     <Plug>(neocomplcache_snippets_expand)
-smap <C-l>     <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
+"recalculate the long line warning when idle and after saving
+autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
 
+"return a warning for "long lines" where "long" is either &textwidth or 80 (if
+"no &textwidth is set)
+"
+"return '' if no long lines
+"return '[#x,my,$z] if long lines are found, were x is the number of long
+"lines, y is the median length of the long lines and z is the length of the
+"longest line
+function! StatuslineLongLineWarning()
+   if !exists("b:statusline_long_line_warning")
+       let long_line_lens = s:LongLines()
+
+       if len(long_line_lens) > 0
+           let b:statusline_long_line_warning = "[" .
+                       \ '#' . len(long_line_lens) . "," .
+                       \ 'm' . s:Median(long_line_lens) . "," .
+                       \ '$' . max(long_line_lens) . "]"
+       else
+           let b:statusline_long_line_warning = ""
+       endif
+   endif
+   return b:statusline_long_line_warning
+endfunction
+
+"return a list containing the lengths of the long lines in this buffer
+function! s:LongLines()
+   let threshold = (&tw ? &tw : 80)
+   let spaces = repeat(" ", &ts)
+
+   let long_line_lens = []
+
+   let i = 1
+   while i <= line("$")
+       let len = strlen(substitute(getline(i), '\t', spaces, 'g'))
+       if len > threshold
+           call add(long_line_lens, len)
+       endif
+       let i += 1
+   endwhile
+
+   return long_line_lens
+endfunction
+
+"find the median of the given array of numbers
+function! s:Median(nums)
+   let nums = sort(a:nums)
+   let l = len(nums)
+
+   if l % 2 == 1
+       let i = (l-1) / 2
+       return nums[i]
+   else
+       return (nums[l/2] + nums[(l/2)-1]) / 2
+   endif
+endfunction
+
+"define :HighlightLongLines command to highlight the offending parts of
+"lines that are longer than the specified length (defaulting to 80)
+command! -nargs=? HighlightLongLines call s:HighlightLongLines('<args>')
+function! s:HighlightLongLines(width)
+   let targetWidth = a:width != '' ? a:width : 90
+   if targetWidth > 0
+       exec 'match Todo /\%>' . (targetWidth) . 'v/'
+   else
+       echomsg "Usage: HighlightLongLines [natural number]"
+   endif
+endfunction
