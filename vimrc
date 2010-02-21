@@ -356,9 +356,10 @@ map <leader>! :call RunSpec("-l " . <C-r>=line('.')<CR>)
 " run full rspec file
 map <leader>!! :call RunSpec("")
 
-" Syntastic settings
+set statusline+=%{fugitive#statusline()}
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+" Syntastic settings
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
