@@ -332,6 +332,7 @@ function! ReloadSnippets( snippets_dir, ft )
     call ResetSnippets()
     call GetSnippets( a:snippets_dir, filetype )
 endfunction
+source ~/.vim/snippets/support_functions.vim
 
 nmap <F13> :call ReloadSnippets(snippets_dir, &filetype)<CR>
 
@@ -366,7 +367,7 @@ let g:syntastic_auto_loc_list=1
 
 " NeoComplCache options
 " Use neocomplcache.
-let g:NeoComplCache_EnableAtStartup = 1
+let g:NeoComplCache_EnableAtStartup = 0
 " Use smartcase.
 let g:NeoComplCache_SmartCase = 1
 " Use camel case completion.
@@ -374,7 +375,12 @@ let g:NeoComplCache_EnableCamelCaseCompletion = 1
 " Use underbar completion.
 let g:NeoComplCache_EnableUnderbarCompletion = 1
 " Set minimum syntax keyword length.
-let g:NeoComplCache_MinSyntaxLength = 3
+let g:NeoComplCache_MinSyntaxLength = 6
+" Max results
+let g:NeoComplCache_MaxList = 6 
+let g:NeoComplCache_KeywordCompletionStartLength = 6
+let g:NeoComplCache_IgnoreCase = 0
+let g:NeoComplCache_EnableWildCard = 0
 
 " Define dictionary.
 let g:NeoComplCache_DictionaryFileTypeLists = {
