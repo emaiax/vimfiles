@@ -363,10 +363,11 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 " Syntastic settings
 let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
+let g:syntastic_auto_loc_list=0
 
 "Autocomplpop options (autocomplete)
-let g:acp_behaviorSnipmateLength = 1
+let g:acp_enableAtStartup = 0
+let g:acp_behaviorSnipmateLength = 2 
 let g:acp_mappingDriven = 1
 let g:acp_behaviorRubyOmniMethodLength = 3
 let g:acp_behaviorRubyOmniSymbolLength = 3
