@@ -322,6 +322,9 @@ imap <c-s> <Esc>:w<CR>a
 
 nmap <F13> :call ReloadSnippets(&filetype)<CR>
 
+" Opens spec/blueprints.rb (used for Machinist)
+nmap <F14> :Rfind blueprints.rb<CR>
+
 " Align Ruby hashes
 vmap ah :Align =><CR>
 
