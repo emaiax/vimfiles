@@ -320,20 +320,6 @@ nmap ; :%s/\<<c-r>=expand("<cword>")<cr>\>/
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 
-
-" Reload SnipMate snippets!!
-" function! ReloadSnippets( snippets_dir, ft )
-"     if strlen( a:ft ) == 0
-"         let filetype = "_"
-"     else
-"         let filetype = a:ft
-"     endif
-" 
-"     call ResetSnippets()
-"     call GetSnippets( a:snippets_dir, filetype )
-" endfunction
-" source ~/.vim/snippets/support_functions.vim
-
 nmap <F13> :call ReloadSnippets(&filetype)<CR>
 
 " Align Ruby hashes
