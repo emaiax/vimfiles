@@ -112,6 +112,7 @@ augroup myfiletypes
 augroup END
 
 nmap <F2> :NERDTreeToggle<CR>
+nmap <leader>rt :%s/\s\+$//<CR>
 
 "make <c-l> clear the highlight as well as redraw
 nnoremap <C-L> :nohls<CR><C-L>
