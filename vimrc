@@ -22,12 +22,12 @@ augroup END
 " autocmd BufNewFile,BufRead *_test.rb source ~/.vim/ftplugin/shoulda.vim
 
 autocmd BufNewFile,BufRead *.mxml compiler flex 
-au BufNewFile,BufRead *.mxml set filetype=mxml
-au BufNewFile,BufRead *.as set filetype=actionscript
-
+  au BufNewFile,BufRead *.mxml set filetype=mxml
+  au BufNewFile,BufRead *.as set filetype=actionscript
 augroup END
  
 autocmd BufNewFile,BufRead *_test.rb source ~/.vim/ftplugin/shoulda.vim
+
 "use \rci in normal mode to indent ruby code,should install kode ,sudo gem
 "install kode
 nmap <leader>rci :%!ruby-code-indenter<cr>
@@ -36,9 +36,10 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+
 " Load matchit (% to bounce from do to end, etc.)
 runtime! plugin/matchit.vim
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+runtime! macros/matchit.vim
  
 " Minibuffer Explorer Settings
 let g:miniBufExplMapWindowNavVim = 1
@@ -58,8 +59,6 @@ set guitablabel=%M%t
 set nobackup
 set noswapfile
 set guifont=Monaco:h12
-set guitablabel=%M%t
-set nobackup
 set nowritebackup
 set path=$PWD/public/**,$PWD/**
 filetype plugin indent on " Enable filetype-specific indenting and plugins
@@ -75,9 +74,8 @@ imap <M-Up> :tabn<CR>
 imap <M-Down> :tabp<CR>
 imap <c-s> <esc><c-s>
 
-"set guioptions-=T
 set guioptions-=T
-if has("gui_running")
+if has("gui_running") 
   "tell the term has 256 colors
   set t_Co=256
   colorscheme ir_black 
@@ -89,7 +87,6 @@ else
   colorscheme ir_black
 endif
 
-
 if $COLORTERM == 'gnome-terminal'
   set term=ansi "gnome-256color
   set term=gnome-256color
@@ -100,10 +97,6 @@ endif
 
 syntax on                 " Enable syntax highlighting
  
-" Load matchit (% to bounce from do to end, etc.)
-runtime! macros/matchit.vim
-set nonumber
- 
 augroup myfiletypes
   " Clear old autocmds in group
   autocmd!
@@ -111,7 +104,10 @@ augroup myfiletypes
   autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 et
 augroup END
 
+"Toggles NERDTree
 nmap <F2> :NERDTreeToggle<CR>
+
+"Remove trailing spaces with \rt
 nmap <leader>rt :%s/\s\+$//<CR>
 
 "make <c-l> clear the highlight as well as redraw
@@ -121,15 +117,14 @@ inoremap <C-L> <C-O>:nohls<CR>
 "map to bufexplorer
 nnoremap <C-B> :BufExplorer<cr>
 
-"map to fuzzy finder text mate stylez
-nnoremap <c-f> :FuzzyFinderTextMate<CR>
-
 "map Q to something useful
 noremap Q gq
 
 "make Y consistent with C and D
 nnoremap Y y$
 
+"map to fuzzy finder text mate stylez
+nnoremap <c-f> :FuzzyFinderTextMate<CR>
 map <leader>b :FuzzyFinderBuffer<CR>
 map <leader>] :FuzzyFinderMruFile<CR>
 map <leader>r :ruby finder.rescan!<CR>
@@ -139,6 +134,7 @@ let g:proj_flags="imstg"
 let g:fuzzy_ceiling=20000
 let g:fuzzy_matching_limit=25
 let g:fuzzy_ignore = "gems/*, log/*"
+
 set cursorline
 
 "folding settings
@@ -164,7 +160,10 @@ set ruler  " Ruler on
 set nu  " Line numbers on
 set nowrap  " Line wrapping off
 set timeoutlen=250  " Time to wait after ESC (default causes an annoying delay)
- 
+
+"Highlight all search results
+set hlsearch
+
 " Formatting (some of these are for coding in C and C++)
 set ts=2  " Tabs are 2 spaces
 set bs=2  " Backspace over everything in insert mode
@@ -210,7 +209,6 @@ function! s:VSetSearch()
 endfunction
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
-
 
 "jump to last cursor position when opening a file
 "dont do it when writing a commit log entry
@@ -273,11 +271,6 @@ nnoremap <C-R> :source ~/.vimrc
 inoremap <C-R> <C-O>:source ~/.vimrc
 vnoremap <C-R> <C-C>:source ~/.vimrc
 
-"  reloads the snippets definitions
-nnoremap <C-N> :source ~/.vim/after/plugin/snipMate.vim
-inoremap <C-R> <C-O>:source ~/.vim/after/plugin/snipMate.vim
-vnoremap <C-R> <C-C>:source ~/.vim/after/plugin/snipMate.vim
-
 " CTRL-T and CTRL-D indent and unindent blocks
 inoremap <C-D> <C-O><LT><LT>
 nnoremap <C-D> <LT><LT>
@@ -307,7 +300,7 @@ function! OpenRubyDoc(keyword)
 endfunction           
 noremap RB :call OpenRubyDoc(expand('<cword>'))<CR>
 
-" Open the Rails ApiDock page for the word under cursos, in a new Firefox tab
+" Open the Rails ApiDock page for the word under cursor, in a new Firefox tab
 function! OpenRailsDoc(keyword)
   let url = 'http://apidock.com/rails/'.a:keyword
   exec '!'.g:browser.' '.url.' &'
@@ -341,7 +334,6 @@ function! RunSpec(args)
  execute cmd 
 endfunction
 
-" Mappings
 " run one rspec example or describe block based on cursor position
 map <leader>! :call RunSpec("-l " . <C-r>=line('.')<CR>)
 " run full rspec file
