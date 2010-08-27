@@ -37,6 +37,8 @@ autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
+au BufRead,BufNewFile /opt/nginx/conf/* set ft=nginx
+
 " Load matchit (% to bounce from do to end, etc.)
 runtime! plugin/matchit.vim
 runtime! macros/matchit.vim
