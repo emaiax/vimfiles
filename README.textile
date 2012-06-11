@@ -4,7 +4,7 @@ In your home directory (Linux or Mac), run:
 
 <pre><code>
 mv ~/.vim ~/vim_old # backup your old .vim folder
-git clone git://github.com/cassiomarques/cmarques-vimfiles.git ~/.vim
+git clone git://github.com/emaiax/cmarques-vimfiles.git ~/.vim
 
 mv ~/.vimrc ~/vimrc_old
 mv ~/.vim/vimrc ~/.vimrc
