@@ -56,11 +56,11 @@ let g:rubytest_cmd_spec = "spec -f specdoc %p"
 let g:rails_default_file='config/database.yml'
  
 set nocompatible          " We're running Vim, not Vi!
-"set guifont=Bitstream\ Vera\ Sans\ Mono\ 9
+set guifont=Bitstream\ Vera\ Sans\ Mono\ 9
 set guitablabel=%M%t
 set nobackup
 set noswapfile
-set guifont=Monaco:h12
+"set guifont=Monaco:h12
 set nowritebackup
 set path=$PWD/public/**,$PWD/**
 filetype plugin indent on " Enable filetype-specific indenting and plugins
@@ -80,21 +80,21 @@ set guioptions-=T
 if has("gui_running") 
   "tell the term has 256 colors
   set t_Co=256
-  colorscheme ir_black 
+  colorscheme railscasts 
   set lines=57
   set columns=237
-  set transparency=3
+  "set transparency=3
 else
   let g:CSApprox_loaded = 0
-  colorscheme ir_black
+  colorscheme railscasts
 endif
 
 if $COLORTERM == 'gnome-terminal'
   set term=ansi "gnome-256color
   set term=gnome-256color
-  colorscheme ir_black
+  colorscheme railscasts
 else
-  colorscheme ir_black
+  colorscheme railscasts
 endif
 
 syntax on                 " Enable syntax highlighting
@@ -315,6 +315,13 @@ nmap ; :%s/\<<c-r>=expand("<cword>")<cr>\>/
 " To save, ctrl-s.
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
+
+
+" Cut, Copy and Paste for Linux (Ubuntu)
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <ESC>"+pa
 
 nmap <F13> :call ReloadSnippets(&filetype)<CR>
 
